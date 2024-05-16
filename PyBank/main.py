@@ -11,43 +11,34 @@ profit = []
 #Read CSV file
 with open(budgetcsv) as budgetfile:
     csvreader = csv.reader(budgetfile, delimiter= ",")
-    # print(csvreader)
-
     csv_header = next(csvreader)
-    # print(f"CSV Header: {csv_header}")
-    # for row in csvreader:
-    #     print(row)
 
-    # #Calculate total number of months in data set
-    month_count = len(list(csvreader))
-
-
-with open(budgetcsv) as budgetfile:
-    csvreader = csv.reader(budgetfile, delimiter= ",")
-    csv_header = next(csvreader)
+    month_count = 0
     net_PL = 0
     total_changes = 0
     initial_profit=1088983
 
-    # #Calculate Total Profit/Loss
+    #Calculate Total No. of months
     for row in csvreader:
-        net_PL = net_PL + int(row[1])
+        month_count = month_count +1
 
-        #Calculating Average Changes
-        profit.append(row[1])
+        #Calculate total change in profit/loss
+        net_PL = net_PL + int(row[1])
+        date.append(row[0])
+        #Calculating changes in profit/loss from MTM
         final_profit = int(row[1])
         monthly_change = final_profit - initial_profit
         monthly_changes_list.append(monthly_change)
         total_changes = total_changes + monthly_change
         initial_profit = final_profit
-        average_change = round(total_changes / (month_count -1),2)
+    #Calculation of average of every change
+    average_change = round(total_changes / (month_count -1),2)
 
-        #Greatest Increase/Decrease and date
-        increase = max(monthly_changes_list)
-        decrease = min(monthly_changes_list)
-        date.append(row[0])
-        increase_date = date[monthly_changes_list.index(increase)]
-        decrease_date = date[monthly_changes_list.index(decrease)]
+    #Greatest Increase/Decrease and date
+    increase = max(monthly_changes_list)
+    decrease = min(monthly_changes_list)
+    increase_date = date[monthly_changes_list.index(increase)]
+    decrease_date = date[monthly_changes_list.index(decrease)]
 
 #Print to screen
 print("Financial Analysis")
